@@ -1,0 +1,174 @@
+/* Estilos para la barra de navegación */
+.navbar {
+    background-color: #343a40 !important; /* Color de fondo */
+    border-bottom: 1px solid #adb5bd !important; /* Borde inferior */
+}
+
+.navbar-brand {
+    font-size: 1.8rem !important; /* Tamaño del texto del logo */
+    color: #fff !important; /* Color del texto del logo */
+    font-weight: bold !important; /* Peso de la fuente */
+}
+
+.navbar-nav {
+    margin-left: auto !important; /* Alinear elementos a la derecha */
+}
+
+.navbar-text {
+    margin-right: 20px !important; /* Espaciado a la derecha para el texto */
+    color: #fff !important; /* Color del texto */
+}
+
+.nav-link {
+    color: #fff !important; /* Color del texto de los enlaces */
+    font-weight: bold !important; /* Negrita */
+    transition: color 0.3s !important; /* Transición suave del color */
+}
+
+.nav-link:hover {
+    color: #ffc107 !important; /* Color del texto al pasar el mouse */
+}
+
+/* Estilos para botones */
+.btn {
+    margin-right: 10px !important; /* Espaciado entre botones */
+    border-radius: 20px !important; /* Borde redondeado */
+}
+
+.btn-outline-secondary {
+    color: #6c757d !important; /* Color del texto del botón */
+    border-color: #6c757d !important; /* Color del borde */
+}
+
+.btn-outline-secondary:hover {
+    color: #fff !important; /* Color del texto al pasar el mouse */
+    background-color: #6c757d !important; /* Fondo al pasar el mouse */
+    border-color: #6c757d !important; /* Borde al pasar el mouse */
+}
+
+.btn-secondary {
+    background-color: #6c757d !important; /* Color de fondo */
+    border-color: #6c757d !important; /* Color del borde */
+}
+
+.btn-secondary:hover {
+    background-color: #495057 !important; /* Fondo al pasar el mouse */
+    border-color: #495057 !important; /* Borde al pasar el mouse */
+}
+
+/* Modal slideout */
+.modal-dialog-slideout {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    min-height: 100%;
+    transform: translate3d(100%, 0, 0);
+    transition: transform 0.3s ease-out;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal.fade .modal-dialog-slideout {
+    transform: translate3d(100%, 0, 0);
+}
+
+.modal.fade.show .modal-dialog-slideout {
+    transform: translate3d(0, 0, 0);
+}
+
+.modal-body {
+    flex: 1 1 auto;
+    overflow-y: auto;
+}
+
+.modal-footer {
+    flex-shrink: 0;
+}
+
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0; /* Color de fondo */
+    color: #343a40; /* Color del texto principal */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff; /* Fondo del contenido */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+}
+
+h1 {
+    color: #333; /* Color del texto */
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra más pronunciada */
+    transition: box-shadow 0.3s ease; /* Transición suave de la sombra */
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra más intensa al pasar el mouse */
+}
+
+.btn {
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #007bff; /* Color de fondo botón primario */
+    border-color: #007bff;
+    color: #fff; /* Color de texto botón primario */
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* Color de fondo botón primario al pasar el mouse */
+    border-color: #0056b3;
+}
+
+.btn-secondary {
+    background-color: #6c757d; /* Color de fondo botón secundario */
+    border-color: #6c757d;
+    color: #fff; /* Color de texto botón secundario */
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268; /* Color de fondo botón secundario al pasar el mouse */
+    border-color: #5a6268;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.fadeIn {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Media queries para responsive design */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    .card {
+        padding: 10px;
+    }
+}

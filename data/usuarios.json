@@ -1,0 +1,20 @@
+[
+    {
+        "username": "admin",
+        "password": "admin123",
+        "role": "admin",
+        "address": ""
+    },
+    {
+        "username": "delivery",
+        "password": "delivery123",
+        "role": "delivery",
+        "address": ""
+    },
+    {
+        "username": "user1",
+        "password": "user123",
+        "role": "user",
+        "address": "123 Calle Principal, Ciudad, País"
+    }
+]

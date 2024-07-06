@@ -1,0 +1,30 @@
+[
+    {
+        "id": 1,
+        "nombre": "El Comilón"
+    },
+    {
+        "id": 2,
+        "nombre": "Pizza World"
+    },
+    {
+        "id": 3,
+        "nombre": "Mexican Delights"
+    },
+    {
+        "id": 4,
+        "nombre": "Sushi House"
+    },
+    {
+        "id": 5,
+        "nombre": "Spanish Flavor"
+    },
+    {
+        "id": 6,
+        "nombre": "Peruvian Taste"
+    },
+    {
+        "id": 7,
+        "nombre": "Venezuelan Treats"
+    }
+]

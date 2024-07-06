@@ -1,0 +1,102 @@
+[
+    {
+        "id": 1,
+        "nombre": "Hamburguesa",
+        "ingredientes": ["Pan", "Carne", "Lechuga", "Tomate", "Queso"],
+        "precio": 5.99,
+        "proveedorId": 1,
+        "tipoPlato": "Comida rápida",
+        "pais": "Estados Unidos",
+        "imagen": "https://www.recetasnestle.com.ec/sites/default/files/srh_recipes/4e4293857c03d819e4ae51de1e86d66a.jpg"
+    },
+    {
+        "id": 2,
+        "nombre": "Pizza",
+        "ingredientes": ["Masa", "Salsa de Tomate", "Queso", "Pepperoni"],
+        "precio": 8.99,
+        "proveedorId": 2,
+        "tipoPlato": "Comida rápida",
+        "pais": "Italia",
+        "imagen": "https://www.lavanguardia.com/files/article_main_microformat/files/fp/uploads/2021/03/30/6063031b90a87.r_d.1083-871-0.jpeg"
+    },
+    {
+        "id": 3,
+        "nombre": "Tacos",
+        "ingredientes": ["Tortilla", "Carne", "Lechuga", "Tomate", "Queso"],
+        "precio": 4.99,
+        "proveedorId": 3,
+        "tipoPlato": "Comida rápida",
+        "pais": "México",
+        "imagen": "https://www.pequerecetas.com/wp-content/uploads/2020/10/tacos-mexicanos.jpg"
+    },
+    {
+        "id": 4,
+        "nombre": "Sushi",
+        "ingredientes": ["Arroz", "Pescado", "Alga", "Sésamo"],
+        "precio": 12.99,
+        "proveedorId": 4,
+        "tipoPlato": "Comida japonesa",
+        "pais": "Japón",
+        "imagen": "https://i.blogs.es/602b31/como-hacer-sushi-empanizado/1366_2000.png"
+    },
+    {
+        "id": 5,
+        "nombre": "Ensalada César",
+        "ingredientes": ["Lechuga", "Pollo", "Crutones", "Queso Parmesano", "Aderezo César"],
+        "precio": 7.99,
+        "proveedorId": 1,
+        "tipoPlato": "Ensalada",
+        "pais": "Italia",
+        "imagen": "https://www.gourmet.cl/wp-content/uploads/2016/09/Ensalada_C%C3%A9sar-web-553x458.jpg"
+    },
+    {
+        "id": 6,
+        "nombre": "Burrito",
+        "ingredientes": ["Tortilla", "Frijoles", "Arroz", "Carne", "Queso", "Salsa"],
+        "precio": 6.99,
+        "proveedorId": 3,
+        "tipoPlato": "Comida mexicana",
+        "pais": "México",
+        "imagen": "https://cdn.britannica.com/13/234013-050-73781543/rice-and-chorizo-burrito.jpg"
+    },
+    {
+        "id": 7,
+        "nombre": "Paella",
+        "ingredientes": ["Arroz", "Mariscos", "Pollo", "Azafrán"],
+        "precio": 14.99,
+        "proveedorId": 5,
+        "tipoPlato": "Comida española",
+        "pais": "España",
+        "imagen": "https://www.recetasnestle.com.co/sites/default/files/srh_recipes/97c7c1ef67cd0191df5058b3bf724a28.jpg"
+    },
+    {
+        "id": 8,
+        "nombre": "Ceviche",
+        "ingredientes": ["Pescado", "Limón", "Cebolla", "Cilantro", "Ají"],
+        "precio": 9.99,
+        "proveedorId": 6,
+        "tipoPlato": "Comida peruana",
+        "pais": "Perú",
+        "imagen": "https://ombligoparao.cl/wp-content/uploads/2023/07/Receta-de-Ceviche-Mixto-Peruano.jpg"
+    },
+    {
+        "id": 9,
+        "nombre": "Arepas",
+        "ingredientes": ["Harina de maíz", "Queso", "Jamón", "Aguacate"],
+        "precio": 5.99,
+        "proveedorId": 7,
+        "tipoPlato": "Comida venezolana",
+        "pais": "Venezuela",
+        "imagen": "https://www.gourmet.cl/wp-content/uploads/2015/09/Arepas.jpg"
+    },
+    {
+        "id": 10,
+        "nombre": "Ramen",
+        "ingredientes": ["Fideos", "Caldo", "Cerdo", "Huevo", "Cebolla verde"],
+        "precio": 10.99,
+        "proveedorId": 4,
+        "tipoPlato": "Comida japonesa",
+        "pais": "Japón",
+        "imagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSA0mEJqi3ZykrvGTBpwiX2NUrQv8NMCoRWYA&s"
+    }
+]

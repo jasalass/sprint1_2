@@ -1,0 +1,142 @@
+[
+    {
+        "user": "user1",
+        "address": "Av. Libertad 1348, Viña del Mar, Chile",
+        "items": [
+            {
+                "nombre": "Pizza",
+                "cantidad": 2,
+                "ingredientes": ["Queso", "Tomate", "Pepperoni"],
+                "precio": 8.99
+            }
+        ],
+        "status": "entregada",
+        "date": "2024-07-01T12:34:56Z"
+    },
+    {
+        "user": "user2",
+        "address": "Calle Valparaíso 123, Viña del Mar, Chile",
+        "items": [
+            {
+                "nombre": "Hamburguesa",
+                "cantidad": 1,
+                "ingredientes": ["Pan", "Carne", "Queso"],
+                "precio": 5.99
+            }
+        ],
+        "status": "entregada",
+        "date": "2024-07-02T14:56:34Z"
+    },
+    {
+        "user": "user3",
+        "address": "2 Norte 1234, Viña del Mar, Chile",
+        "items": [
+            {
+                "nombre": "Sushi",
+                "cantidad": 3,
+                "ingredientes": ["Arroz", "Pescado", "Alga"],
+                "precio": 12.99
+            }
+        ],
+        "status": "pending",
+        "date": "2024-07-03T16:34:22Z"
+    },
+    {
+        "user": "user4",
+        "address": "3 Oriente 456, Viña del Mar, Chile",
+        "items": [
+            {
+                "nombre": "Ensalada",
+                "cantidad": 2,
+                "ingredientes": ["Lechuga", "Tomate", "Queso"],
+                "precio": 7.99
+            }
+        ],
+        "status": "entregada",
+        "date": "2024-07-04T18:56:12Z"
+    },
+    {
+        "user": "user5",
+        "address": "Calle Álvarez 789, Viña del Mar, Chile",
+        "items": [
+            {
+                "nombre": "Taco",
+                "cantidad": 4,
+                "ingredientes": ["Tortilla", "Carne", "Queso"],
+                "precio": 6.99
+            }
+        ],
+        "status": "pending",
+        "date": "2024-07-05T19:45:10Z"
+    },
+    {
+        "user": "user6",
+        "address": "5 Norte 1357, Viña del Mar, Chile",
+        "items": [
+            {
+                "nombre": "Lasagna",
+                "cantidad": 1,
+                "ingredientes": ["Pasta", "Queso", "Tomate"],
+                "precio": 10.99
+            }
+        ],
+        "status": "entregada",
+        "date": "2024-07-06T20:14:30Z"
+    },
+    {
+        "user": "user7",
+        "address": "Av. Perú 101, Viña del Mar, Chile",
+        "items": [
+            {
+                "nombre": "Empanada",
+                "cantidad": 5,
+                "ingredientes": ["Masa", "Carne", "Cebolla"],
+                "precio": 2.99
+            }
+        ],
+        "status": "entregada",
+        "date": "2024-07-07T12:00:00Z"
+    },
+    {
+        "user": "user8",
+        "address": "6 Poniente 456, Viña del Mar, Chile",
+        "items": [
+            {
+                "nombre": "Ceviche",
+                "cantidad": 2,
+                "ingredientes": ["Pescado", "Cebolla", "Limón"],
+                "precio": 9.99
+            }
+        ],
+        "status": "pending",
+        "date": "2024-07-08T13:15:00Z"
+    },
+    {
+        "user": "user9",
+        "address": "Av. San Martín 234, Viña del Mar, Chile",
+        "items": [
+            {
+                "nombre": "Hot Dog",
+                "cantidad": 3,
+                "ingredientes": ["Pan", "Salchicha", "Mostaza"],
+                "precio": 4.99
+            }
+        ],
+        "status": "entregada",
+        "date": "2024-07-09T14:30:00Z"
+    },
+    {
+        "user": "user10",
+        "address": "Calle Villanelo 345, Viña del Mar, Chile",
+        "items": [
+            {
+                "nombre": "Churrasco",
+                "cantidad": 1,
+                "ingredientes": ["Pan", "Carne", "Palta"],
+                "precio": 8.99
+            }
+        ],
+        "status": "pending",
+        "date": "2024-07-10T15:45:00Z"
+    }
+]

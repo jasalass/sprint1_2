@@ -35,11 +35,11 @@
                     <form>
                         <div class="form-group">
                             <label for="username">Usuario:</label>
-                            <input type="text" id="username" class="form-control">
+                            <input type="text" id="username" class="form-control" required>
                         </div>
                         <div class="form-group">
                             <label for="password">Contraseña:</label>
-                            <input type="password" id="password" class="form-control">
+                            <input type="password" id="password" class="form-control" required>
                         </div>
                         <button type="button" class="btn btn-primary" onclick="login()">Ingresar</button>
                         <button type="button" class="btn btn-link" data-toggle="modal" data-target="#forgotPasswordModal" data-dismiss="modal">¿Olvidó su contraseña?</button>
@@ -63,15 +63,15 @@
                     <form>
                         <div class="form-group">
                             <label for="newUsername">Usuario:</label>
-                            <input type="text" id="newUsername" class="form-control">
+                            <input type="text" id="newUsername" class="form-control" required>
                         </div>
                         <div class="form-group">
                             <label for="newPassword">Contraseña:</label>
-                            <input type="password" id="newPassword" class="form-control">
+                            <input type="password" id="newPassword" class="form-control" required>
                         </div>
                         <div class="form-group">
                             <label for="address">Dirección:</label>
-                            <input type="text" id="address" class="form-control">
+                            <input type="text" id="address" class="form-control" required>
                         </div>
                         <div class="form-group form-check">
                             <input type="checkbox" class="form-check-input" id="isDelivery">
@@ -96,10 +96,10 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="recoveryForm">
+                <form id="recoveryForm" >
                     <div class="form-group">
                         <label for="recoveryUsername">Usuario:</label>
-                        <input type="text" id="recoveryUsername" class="form-control">
+                        <input type="text" id="recoveryUsername" class="form-control" required>
                     </div>
                     <div class="form-group" id="addressVerification" style="display: none;">
                         <label for="addressSelect">Seleccione su dirección:</label>
@@ -107,7 +107,7 @@
                     </div>
                     <div class="form-group" id="newPasswordField" style="display: none;">
                         <label for="contranueva">Nueva Contraseña:</label>
-                        <input type="password" id="contranueva" class="form-control">
+                        <input type="password" id="contranueva" class="form-control" required>
                     </div>
                     <button type="button" class="btn btn-primary" id="verifyUserButton" onclick="verifyUser()">Verificar Usuario</button>
                     <button type="button" class="btn btn-primary" style="display: none;" id="verifyAddressButton" onclick="verifyAddress()">Verificar Dirección</button>

@@ -10,7 +10,7 @@
 <body>
     <div id="navbar"></div>
     <div class="container">
-        <img src="bar.webp" alt="El Comilón" class="img-fluid mb-4" id="img-bar">
+        <img src="bar.webp" alt="El Comilón" class="img-fluid img-bar mb-4">
         <div id="main-content">
             <div id="top-platos" class="row">
                 <!-- Los tres platos más baratos se cargarán dinámicamente con JavaScript -->
@@ -42,6 +42,7 @@
                             <input type="password" id="password" class="form-control">
                         </div>
                         <button type="button" class="btn btn-primary" onclick="login()">Ingresar</button>
+                        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#forgotPasswordModal" data-dismiss="modal">¿Olvidó su contraseña?</button>
                     </form>
                 </div>
             </div>
@@ -83,24 +84,42 @@
         </div>
     </div>
 
-    <!-- Modal para redirigir a login o registro -->
-    <div class="modal fade" id="loginOrRegisterModal" tabindex="-1" role="dialog" aria-labelledby="loginOrRegisterModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="loginOrRegisterModalLabel">Iniciar Sesión o Registrarse</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Debe iniciar sesión o registrarse para continuar.</p>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#loginModal">Login</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" data-toggle="modal" data-target="#registerModal">Registro</button>
-                </div>
+  
+<!-- Modal para recuperación de contraseña -->
+<div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="forgotPasswordModalLabel">Recuperar Contraseña</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="recoveryForm">
+                    <div class="form-group">
+                        <label for="recoveryUsername">Usuario:</label>
+                        <input type="text" id="recoveryUsername" class="form-control">
+                    </div>
+                    <div class="form-group" id="addressVerification" style="display: none;">
+                        <label for="addressSelect">Seleccione su dirección:</label>
+                        <select id="addressSelect" class="form-control"></select>
+                    </div>
+                    <div class="form-group" id="newPasswordField" style="display: none;">
+                        <label for="contranueva">Nueva Contraseña:</label>
+                        <input type="password" id="contranueva" class="form-control">
+                    </div>
+                    <button type="button" class="btn btn-primary" id="verifyUserButton" onclick="verifyUser()">Verificar Usuario</button>
+                    <button type="button" class="btn btn-primary" style="display: none;" id="verifyAddressButton" onclick="verifyAddress()">Verificar Dirección</button>
+                    <button type="button" class="btn btn-primary" style="display: none;" id="resetPasswordButton" onclick="resetPassword()">Resetear Contraseña</button>
+                </form>
             </div>
         </div>
     </div>
+</div>
+
+
+
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

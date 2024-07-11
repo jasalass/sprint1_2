@@ -330,3 +330,85 @@ function logout() {
     localStorage.removeItem('loggedInUser');
     window.location.href = 'index.html';
 }
+
+
+
+
+function verifyUser() {
+    const recoveryUsername = document.getElementById('recoveryUsername').value;
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const user = users.find(u => u.username === recoveryUsername);
+
+    if (user) {
+        // Generate fake addresses
+        const fakeAddresses = generateFakeAddresses(user.address);
+
+        // Populate the address select dropdown
+        const addressSelect = document.getElementById('addressSelect');
+        addressSelect.innerHTML = '';
+        fakeAddresses.forEach(address => {
+            const option = document.createElement('option');
+            option.value = address;
+            option.textContent = address;
+            addressSelect.appendChild(option);
+        });
+
+        document.getElementById('addressVerification').style.display = 'block';
+        document.getElementById('verifyAddressButton').style.display = 'inline-block';
+        document.getElementById('verifyUserButton').style.display = 'none';
+    } else {
+        alert('Usuario no encontrado');
+    }
+}
+
+function generateFakeAddresses(correctAddress) {
+    const addresses = [correctAddress];
+    const fakeAddress1 = 'Falsa Dirección 1';
+    const fakeAddress2 = 'Falsa Dirección 2';
+    const fakeAddress3 = 'Falsa Dirección 3';
+
+    addresses.push(fakeAddress1, fakeAddress2, fakeAddress3);
+    return shuffleArray(addresses);
+}
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function verifyAddress() {
+    const selectedAddress = document.getElementById('addressSelect').value;
+    const recoveryUsername = document.getElementById('recoveryUsername').value;
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const user = users.find(u => u.username === recoveryUsername);
+
+    if (user && user.address === selectedAddress) {
+        document.getElementById('newPasswordField').style.display = 'block';
+        document.getElementById('resetPasswordButton').style.display = 'inline-block';
+        document.getElementById('verifyAddressButton').style.display = 'none';
+    } else {
+        alert('Dirección incorrecta');
+    }
+}
+
+function resetPassword() {
+    const recoveryUsername = document.getElementById('recoveryUsername').value;
+    const newPassword = document.getElementById('contranueva').value.trim();
+
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const user = users.find(u => u.username === recoveryUsername);
+
+    if (user) {
+        if (newPassword) {
+            user.password = newPassword;
+            localStorage.setItem('users', JSON.stringify(users));
+            alert('Contraseña actualizada correctamente');
+            $('#forgotPasswordModal').modal('hide');
+        } else {
+            alert('Por favor, ingrese una nueva contraseña');
+        }
+    }
+}

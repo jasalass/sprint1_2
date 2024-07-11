@@ -172,3 +172,98 @@ h1 {
         padding: 10px;
     }
 }
+
+/* Estilos para el modal de carrito */
+.cart-item {
+    margin-bottom: 15px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.cart-item h3 {
+    margin-top: 0;
+}
+
+.cart-item p {
+    margin: 5px 0;
+}
+
+/* Estilos para el historial de pedidos y estado de la cuenta */
+#order-history, #account-status {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#order-history .order-item, #account-status .account-item {
+    margin-bottom: 15px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+#order-history .order-item h5, #account-status .account-item h5 {
+    margin-top: 0;
+}
+
+/* Estilos adicionales para formularios */
+.form-control {
+    margin-bottom: 10px;
+}
+
+label {
+    font-weight: bold;
+}
+
+/* Estilos para gráficos en el panel de administración */
+canvas {
+    margin-top: 20px;
+}
+
+.modal-lg {
+    max-width: 90%;
+}
+
+#map {
+    height: 400px;
+    width: 100%;
+}
+
+.fixed-img {
+    width: 100%;
+    height: 200px; /* Altura fija para todas las imágenes */
+    object-fit: cover; /* Ajusta la imagen para cubrir el área sin distorsionar */
+}
+
+.card {
+    height: 100%; /* Asegura que todas las cards tengan la misma altura */
+    display: flex;
+    flex-direction: column;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.card-title {
+    margin-bottom: 0.5rem;
+}
+
+.card-text {
+    margin-bottom: 1rem;
+}
+
+.btn {
+    margin-top: auto; /* Asegura que el botón se mantenga en la parte inferior */
+}
+
+
+.pestana{
+    color: black!important;
+}

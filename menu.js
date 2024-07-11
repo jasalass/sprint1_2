@@ -8,8 +8,21 @@ document.addEventListener("DOMContentLoaded", function () {
         loadMenu();
         loadFilters();
         loadNavbar(user);
+        loadPlatosToLocalStorage();
     }
 });
+
+function loadPlatosToLocalStorage() {
+    fetch('data/platos.json')
+        .then(response => response.json())
+        .then(platos => {
+            localStorage.setItem('platos', JSON.stringify(platos));
+        })
+        .catch(error => console.error('Error al cargar los platos:', error));
+}
+
+// Resto de tu código...
+
 
 function loadNavbar(user) {
     const navbar = `
@@ -23,7 +36,9 @@ function loadNavbar(user) {
                     <li class="nav-item">
                         <a class="nav-link" href="menu.html">Menú</a>
                     </li>
-                    <!-- Puedes agregar más enlaces aquí si es necesario -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="perfil.html">Perfil</a>
+                    </li>
                 </ul>
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
@@ -41,6 +56,7 @@ function loadNavbar(user) {
     `;
     document.getElementById('navbar').innerHTML = navbar;
 }
+
 
 function logout() {
     localStorage.removeItem('loggedInUser');
@@ -196,16 +212,6 @@ function addToCart(platoId) {
     alert('Plato agregado al carrito');
 }
 
-function handleViewCartClick() {
-    const user = JSON.parse(localStorage.getItem('loggedInUser'));
-    if (user) {
-        $('#cartModal').modal('show');
-        viewCart();
-    } else {
-        $('#loginOrRegisterModal').modal('show');
-    }
-}
-
 function viewCart() {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
     Promise.all([
@@ -247,38 +253,149 @@ function confirmOrder() {
         alert('El carrito está vacío.');
         return;
     }
-    
+
+    const deliveryDate = document.getElementById('delivery-date').value;
+    const deliveryTime = document.getElementById('delivery-time').value;
+    const recurrence = document.getElementById('recurrence').value;
+
+    if (!deliveryDate || !deliveryTime) {
+        alert('Por favor, seleccione la fecha y hora de entrega.');
+        return;
+    }
+
     const newOrder = {
+        id: Date.now(), // Usar un timestamp como ID único para el pedido
         user: user.username,
-        address: user.address, // Añadir la dirección del usuario al pedido
+        address: user.address,
         items: cart,
         status: 'pending',
-        date: new Date().toISOString()
+        date: new Date().toISOString(),
+        deliveryDate: deliveryDate,
+        deliveryTime: deliveryTime,
+        recurrence: recurrence
     };
 
-    // Simulación de éxito o error de la confirmación del pedido
-    const success = Math.random() > 0.2; // 80% de probabilidad de éxito
+    let pedidos = JSON.parse(localStorage.getItem('pedidos')) || [];
+    pedidos.push(newOrder);
+    localStorage.setItem('pedidos', JSON.stringify(pedidos));
+    localStorage.removeItem('cart');
 
-    if (success) {
-        alert('Redirigiendo a la página de pago...');
-        fetch('data/pedidos.json')
-            .then(response => response.json())
-            .then(pedidos => {
-                pedidos.push(newOrder);
-                localStorage.setItem('pedidos', JSON.stringify(pedidos));
-                localStorage.removeItem('cart');
-                alert('Pedido confirmado');
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                // Guardar en localStorage si hay un error con el fetch
-                let localPedidos = JSON.parse(localStorage.getItem('pedidos')) || [];
-                localPedidos.push(newOrder);
-                localStorage.setItem('pedidos', JSON.stringify(localPedidos));
-                localStorage.removeItem('cart');
-                alert('Pedido confirmado (almacenado localmente)');
+    if (recurrence !== 'none') {
+        let recurringOrders = JSON.parse(localStorage.getItem('recurringOrders')) || [];
+        recurringOrders.push(newOrder);
+        localStorage.setItem('recurringOrders', JSON.stringify(recurringOrders));
+    }
+
+    alert('Pedido confirmado');
+}
+
+
+
+function loadOrders() {
+    fetch('data/pedidos.json')
+        .then(response => response.json())
+        .then(pedidos => {
+            const user = JSON.parse(localStorage.getItem('loggedInUser'));
+            const userOrders = pedidos.filter(order => order.user === user.username);
+            const ordersContainer = document.getElementById('order-history');
+            ordersContainer.innerHTML = ''; // Limpiar el contenido anterior
+
+            userOrders.forEach(order => {
+                const orderDiv = document.createElement('div');
+                orderDiv.className = 'order-item';
+                orderDiv.innerHTML = `
+                    <h5>Pedido ${order.id}</h5>
+                    <p>Fecha: ${new Date(order.date).toLocaleString()}</p>
+                    <p>Estado: ${order.status}</p>
+                    <button onclick="cancelOrder(${order.id})" class="btn btn-danger">Cancelar Pedido</button>
+                    <ul>
+                        ${order.items.map(item => `<li>${item.cantidad} x ${item.nombre}</li>`).join('')}
+                    </ul>
+                `;
+                ordersContainer.appendChild(orderDiv);
             });
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+function loadOrderHistory() {
+    const user = JSON.parse(localStorage.getItem('loggedInUser'));
+    if (!user) {
+        alert('Por favor, inicie sesión para ver su historial de pedidos.');
+        return;
+    }
+
+    fetch('data/pedidos.json')
+        .then(response => response.json())
+        .then(pedidos => {
+            const userOrders = pedidos.filter(order => order.user === user.username);
+            const orderHistoryContainer = document.getElementById('order-history');
+            orderHistoryContainer.innerHTML = ''; // Limpiar contenido anterior
+
+            userOrders.forEach(order => {
+                const orderDiv = document.createElement('div');
+                orderDiv.className = 'order-item';
+                orderDiv.innerHTML = `
+                    <h5>Pedido ${order.id}</h5>
+                    <p>Fecha: ${new Date(order.date).toLocaleString()}</p>
+                    <p>Estado: ${order.status}</p>
+                    <ul>
+                        ${order.items.map(item => `<li>${item.cantidad} x ${item.nombre}</li>`).join('')}
+                    </ul>
+                `;
+                orderHistoryContainer.appendChild(orderDiv);
+            });
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+function loadAccountStatus() {
+    const user = JSON.parse(localStorage.getItem('loggedInUser'));
+    if (!user) {
+        alert('Por favor, inicie sesión para ver el estado de su cuenta.');
+        return;
+    }
+
+    const accountStatusContainer = document.getElementById('account-status');
+    accountStatusContainer.innerHTML = `
+        <h5>Estado de la Cuenta</h5>
+        <p>Nombre de usuario: ${user.username}</p>
+        <p>Dirección: ${user.address}</p>
+        <p>Saldo: $${user.balance || 0.00}</p>
+    `;
+    loadOrderHistory(); // Mostrar también el historial de pedidos
+}
+
+function configureRecurringOrder(platoId, frecuencia) {
+    const user = JSON.parse(localStorage.getItem('loggedInUser'));
+    if (!user) {
+        alert('Por favor, inicie sesión para configurar pedidos recurrentes.');
+        return;
+    }
+
+    let recurringOrders = JSON.parse(localStorage.getItem('recurringOrders')) || [];
+    recurringOrders.push({ user: user.username, platoId: platoId, frecuencia: frecuencia });
+    localStorage.setItem('recurringOrders', JSON.stringify(recurringOrders));
+    alert('Pedido recurrente configurado con éxito.');
+}
+
+function cancelOrder(orderId) {
+    // Obtener el usuario logueado
+    const user = JSON.parse(localStorage.getItem('loggedInUser'));
+    if (!user) {
+        alert('Por favor, inicie sesión para cancelar pedidos.');
+        return;
+    }
+
+    // Obtener el pedido y verificar si puede ser cancelado
+    let pedidos = JSON.parse(localStorage.getItem('pedidos')) || [];
+    const orderIndex = pedidos.findIndex(order => order.id === orderId && order.user === user.username);
+    if (orderIndex > -1 && pedidos[orderIndex].status === 'pending') {
+        pedidos.splice(orderIndex, 1);
+        localStorage.setItem('pedidos', JSON.stringify(pedidos));
+        alert('Pedido cancelado con éxito.');
+        loadOrders(); // Recargar la lista de pedidos
     } else {
-        alert('Hubo un error al procesar el pedido. Por favor, inténtelo de nuevo.');
+        alert('No se puede cancelar este pedido.');
     }
 }

@@ -20,28 +20,58 @@
         <button type="button" class="btn btn-secondary" id="viewCartButton" onclick="handleViewCartClick()">
             Ver Carrito
         </button>
-        <div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="cartModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-slideout" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="cartModalLabel">Carrito de Compras</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div id="cart-items">
-                            <!-- Los items del carrito se cargarán dinámicamente con JavaScript -->
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <button type="button" class="btn btn-success" onclick="confirmOrder()">Confirmar Pedido</button>
-                    </div>
+        
+        <!-- Modal para carrito de compras -->
+        <!-- Modal para carrito de compras -->
+<div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="cartModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-slideout" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cartModalLabel">Carrito de Compras</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="cart-items">
+                    <!-- Los items del carrito se cargarán dinámicamente con JavaScript -->
                 </div>
+                <div>
+                    <label for="delivery-date">Fecha de entrega:</label>
+                    <input type="date" id="delivery-date" class="form-control">
+                    <label for="delivery-time">Hora de entrega:</label>
+                    <input type="time" id="delivery-time" class="form-control">
+                    <label for="recurrence">Recurrencia:</label>
+                    <select id="recurrence" class="form-control">
+                        <option value="none">Ninguna</option>
+                        <option value="daily">Diaria</option>
+                        <option value="weekly">Semanal</option>
+                        <option value="monthly">Mensual</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-success" onclick="confirmOrder()">Confirmar Pedido</button>
             </div>
         </div>
     </div>
+</div>
+
+
+        <!-- Sección para historial de pedidos -->
+        <div id="order-history" class="my-3">
+            <h2>Historial de Pedidos</h2>
+            <!-- Historial de pedidos se cargará aquí -->
+        </div>
+
+        <!-- Sección para estado de la cuenta -->
+        <div id="account-status" class="my-3">
+            <h2>Estado de la Cuenta</h2>
+            <!-- Estado de la cuenta se cargará aquí -->
+        </div>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

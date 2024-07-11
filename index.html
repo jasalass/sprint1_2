@@ -32,7 +32,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="loginForm" novalidate>
                         <div class="form-group">
                             <label for="username">Usuario:</label>
                             <input type="text" id="username" class="form-control" required>
@@ -41,7 +41,7 @@
                             <label for="password">Contraseña:</label>
                             <input type="password" id="password" class="form-control" required>
                         </div>
-                        <button type="button" class="btn btn-primary" onclick="login()">Ingresar</button>
+                        <button type="submit" class="btn btn-primary">Ingresar</button>
                         <button type="button" class="btn btn-link" data-toggle="modal" data-target="#forgotPasswordModal" data-dismiss="modal">¿Olvidó su contraseña?</button>
                     </form>
                 </div>
@@ -60,7 +60,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="registerForm" novalidate>
                         <div class="form-group">
                             <label for="newUsername">Usuario:</label>
                             <input type="text" id="newUsername" class="form-control" required>
@@ -77,49 +77,45 @@
                             <input type="checkbox" class="form-check-input" id="isDelivery">
                             <label class="form-check-label" for="isDelivery">Registrar como repartidor</label>
                         </div>
-                        <button type="button" class="btn btn-primary" onclick="register()">Registrar</button>
+                        <button type="submit" class="btn btn-primary">Registrar</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 
-  
-<!-- Modal para recuperación de contraseña -->
-<div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="forgotPasswordModalLabel">Recuperar Contraseña</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+    <!-- Modal para recuperación de contraseña -->
+    <div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="forgotPasswordModalLabel">Recuperar Contraseña</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
                 </button>
-            </div>
-            <div class="modal-body">
-                <form id="recoveryForm" >
-                    <div class="form-group">
-                        <label for="recoveryUsername">Usuario:</label>
-                        <input type="text" id="recoveryUsername" class="form-control" required>
-                    </div>
-                    <div class="form-group" id="addressVerification" style="display: none;">
-                        <label for="addressSelect">Seleccione su dirección:</label>
-                        <select id="addressSelect" class="form-control"></select>
-                    </div>
-                    <div class="form-group" id="newPasswordField" style="display: none;">
-                        <label for="contranueva">Nueva Contraseña:</label>
-                        <input type="password" id="contranueva" class="form-control" required>
-                    </div>
-                    <button type="button" class="btn btn-primary" id="verifyUserButton" onclick="verifyUser()">Verificar Usuario</button>
-                    <button type="button" class="btn btn-primary" style="display: none;" id="verifyAddressButton" onclick="verifyAddress()">Verificar Dirección</button>
-                    <button type="button" class="btn btn-primary" style="display: none;" id="resetPasswordButton" onclick="resetPassword()">Resetear Contraseña</button>
-                </form>
+                </div>
+                <div class="modal-body">
+                    <form id="recoveryForm" novalidate>
+                        <div class="form-group">
+                            <label for="recoveryUsername">Usuario:</label>
+                            <input type="text" id="recoveryUsername" class="form-control" required>
+                        </div>
+                        <div class="form-group" id="addressVerification" style="display: none;">
+                            <label for="addressSelect">Seleccione su dirección:</label>
+                            <select id="addressSelect" class="form-control"></select>
+                        </div>
+                        <div class="form-group" id="newPasswordField" style="display: none;">
+                            <label for="newPassword">Nueva Contraseña:</label>
+                            <input type="password" id="newPassword" class="form-control" required>
+                        </div>
+                        <button type="button" class="btn btn-primary" id="verifyUserButton" onclick="verifyUser()">Verificar Usuario</button>
+                        <button type="button" class="btn btn-primary" style="display: none;" id="verifyAddressButton" onclick="verifyAddress()">Verificar Dirección</button>
+                        <button type="button" class="btn btn-primary" style="display: none;" id="resetPasswordButton" onclick="resetPassword()">Resetear Contraseña</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
-
-
-
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
@@ -129,6 +125,26 @@
         document.addEventListener("DOMContentLoaded", function () {
             checkLoginStatus();
             loadTopPlatos();
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            if (this.checkValidity()) {
+                login();
+            } else {
+                event.stopPropagation();
+                this.classList.add('was-validated');
+            }
+        });
+
+        document.getElementById('registerForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            if (this.checkValidity()) {
+                register();
+            } else {
+                event.stopPropagation();
+                this.classList.add('was-validated');
+            }
         });
     </script>
 </body>

@@ -12,21 +12,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-function loadPlatosToLocalStorage() {
-    fetch('data/platos.json')
-        .then(response => response.json())
-        .then(platos => {
-            localStorage.setItem('platos', JSON.stringify(platos));
-        })
-        .catch(error => console.error('Error al cargar los platos:', error));
-}
-
-// Resto de tu código...
-
-
 function loadNavbar(user) {
     const navbar = `
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <a class="navbar-brand" href="#">El Comilón</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -45,10 +33,10 @@ function loadNavbar(user) {
                         <span class="navbar-text">Hola, ${user.username}</span>
                     </li>
                     <li class="nav-item">
-                        <button class="btn btn-outline-secondary ml-2" onclick="logout()">Logout</button>
+                        <button class="btn btn-outline-light ml-2" onclick="logout()">Logout</button>
                     </li>
                     <li class="nav-item">
-                        <button class="btn btn-secondary ml-2" onclick="handleViewCartClick()">Ver Carrito</button>
+                        <button class="btn btn-warning ml-2" onclick="handleViewCartClick()">Ver Carrito</button>
                     </li>
                 </ul>
             </div>
@@ -56,7 +44,6 @@ function loadNavbar(user) {
     `;
     document.getElementById('navbar').innerHTML = navbar;
 }
-
 
 function logout() {
     localStorage.removeItem('loggedInUser');

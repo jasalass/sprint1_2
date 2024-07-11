@@ -279,3 +279,10 @@ canvas {
 .pestana{
     color: #343a40!important;
 }
+
+#img-bar{
+    width: 100%;
+    height: auto;
+    max-height: 400px; /* Ajusta esta altura según lo que necesites */
+    object-fit: cover; /* Asegura que la imagen se recorte en lugar de deformarse */
+}

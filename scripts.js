@@ -1,23 +1,22 @@
 document.addEventListener("DOMContentLoaded", function () {
     checkLoginStatus();
+    loadTopPlatos();
 });
 
+// Función para verificar el estado de inicio de sesión
 function checkLoginStatus() {
     const user = JSON.parse(localStorage.getItem('loggedInUser'));
     if (user) {
+        loadNavbar(user);
         if (user.role === 'delivery') {
-            loadNavbar(user);
             loadDeliveryProfile(user);
-        } else {
-            loadNavbar(user);
-            loadTopPlatos();
         }
     } else {
         loadNavbar();
-        loadTopPlatos();
     }
 }
 
+// Función para cargar la barra de navegación
 function loadNavbar(user = null) {
     const navbar = `
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -27,18 +26,17 @@ function loadNavbar(user = null) {
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-                   
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Inicio</a>
+                    </li>
+                    ${user ? `<li class="nav-item"><a class="nav-link" href="menu.html">Menú</a></li>` : ''}
                 </ul>
                 <ul class="navbar-nav ml-auto">
                     ${user ? `
                         <li class="nav-item">
                             <span class="navbar-text">Hola, ${user.username}</span>
                         </li>
-                        ${user.role === 'admin' ? `
-                            <li class="nav-item">
-                                <a class="nav-link" href="admin.html">Reportes</a>
-                            </li>
-                        ` : ''}
+                        ${user.role === 'admin' ? `<li class="nav-item"><a class="nav-link" href="admin.html">Reportes</a></li>` : ''}
                         <li class="nav-item">
                             <button class="btn btn-outline-secondary ml-2" onclick="logout()">Logout</button>
                         </li>
@@ -60,62 +58,53 @@ function loadNavbar(user = null) {
     document.getElementById('navbar').innerHTML = navbar;
 }
 
+// Función para iniciar sesión
 function login() {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
-    fetch('data/usuarios.json')
-        .then(response => response.json())
-        .then(users => {
-            const user = users.find(u => u.username === username && u.password === password);
-            if (user) {
-                localStorage.setItem('loggedInUser', JSON.stringify(user));
-                alert('Login exitoso');
-                if (user.role === 'admin') {
-                    window.location.href = 'admin.html'; // Redirigir a la página de administración
-                } else if (user.role === 'delivery') {
-                    window.location.href = 'delivery.html'; // Redirigir a la página de delivery
-                } else {
-                    window.location.href = 'menu.html'; // Redirigir a la página de menú para usuarios regulares
-                }
-            } else {
-                alert('Usuario o contraseña incorrectos');
-            }
-        })
-        .catch(error => console.error('Error:', error));
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+
+    const user = users.find(u => u.username === username && u.password === password);
+    if (user) {
+        localStorage.setItem('loggedInUser', JSON.stringify(user));
+        alert('Login exitoso');
+        $('#loginModal').modal('hide');
+        checkLoginStatus();
+    } else {
+        alert('Usuario o contraseña incorrectos');
+    }
 }
 
+// Función para registrar un nuevo usuario
 function register() {
     const newUsername = document.getElementById('newUsername').value;
     const newPassword = document.getElementById('newPassword').value;
     const address = document.getElementById('address').value;
     const isDelivery = document.getElementById('isDelivery').checked;
+    const users = JSON.parse(localStorage.getItem('users')) || [];
 
-    fetch('data/usuarios.json')
-        .then(response => response.json())
-        .then(users => {
-            if (users.find(u => u.username === newUsername)) {
-                alert('El usuario ya existe');
-            } else {
-                const newUser = {
-                    username: newUsername,
-                    password: newPassword,
-                    address: address,
-                    role: isDelivery ? 'delivery' : 'user'
-                };
-                users.push(newUser);
-                localStorage.setItem('usuarios', JSON.stringify(users));
-                alert('Registro exitoso');
-                $('#registerModal').modal('hide');
-            }
-        })
-        .catch(error => console.error('Error:', error));
+    if (users.find(u => u.username === newUsername)) {
+        alert('El usuario ya existe');
+    } else {
+        const newUser = {
+            username: newUsername,
+            password: newPassword,
+            address: address,
+            role: isDelivery ? 'delivery' : 'user'
+        };
+        users.push(newUser);
+        localStorage.setItem('users', JSON.stringify(users));
+        alert('Registro exitoso');
+        $('#registerModal').modal('hide');
+    }
 }
 
+// Función para cargar los tres platos más baratos
 function loadTopPlatos() {
     fetch('data/platos.json')
         .then(response => response.json())
         .then(platos => {
-            const topPlatos = platos.sort((a, b) => a.precio - b.precio).slice(0, 6);
+            const topPlatos = platos.sort((a, b) => a.precio - b.precio).slice(0, 3);
             const topPlatosContainer = document.getElementById('top-platos');
             topPlatosContainer.innerHTML = ''; // Limpiar el contenido anterior
 
@@ -136,11 +125,10 @@ function loadTopPlatos() {
                 topPlatosContainer.appendChild(platoDiv);
             });
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => console.error('Error al cargar los platos:', error));
 }
 
-
-
+// Función para añadir un plato al carrito
 function orderPlato(platoId) {
     const user = JSON.parse(localStorage.getItem('loggedInUser'));
     if (user) {
@@ -158,6 +146,7 @@ function orderPlato(platoId) {
     }
 }
 
+// Función para manejar el clic en "Ver Carrito"
 function handleViewCartClick() {
     const user = JSON.parse(localStorage.getItem('loggedInUser'));
     if (user) {
@@ -168,6 +157,7 @@ function handleViewCartClick() {
     }
 }
 
+// Función para ver el carrito
 function viewCart() {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
     const cartContainer = document.getElementById('cart-items');
@@ -178,34 +168,31 @@ function viewCart() {
         return;
     }
 
-    Promise.all([
-        fetch('data/platos.json').then(response => response.json()),
-        fetch('data/proveedores.json').then(response => response.json())
-    ]).then(([platos, proveedores]) => {
-        cart.forEach(cartItem => {
-            const plato = platos.find(p => p.id === cartItem.id);
-            const proveedor = proveedores.find(prov => prov.id === plato.proveedorId);
-            const ingredientes = cartItem.ingredientes.join(', ');
-
-            const platoDiv = document.createElement('div');
-            platoDiv.className = 'cart-item';
-            platoDiv.innerHTML = `
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">${plato.nombre}</h5>
-                        <p class="card-text">Ingredientes: ${ingredientes}</p>
-                        <p class="card-text">Proveedor: ${proveedor.nombre}</p>
-                        <p class="card-text">Precio: $${plato.precio.toFixed(2)}</p>
-                        <p class="card-text">Cantidad: ${cartItem.cantidad}</p>
-                        <button onclick="removeFromCart(${plato.id})" class="btn btn-danger">Eliminar</button>
+    fetch('data/platos.json')
+        .then(response => response.json())
+        .then(platos => {
+            cart.forEach(cartItem => {
+                const plato = platos.find(p => p.id === cartItem.id);
+                const platoDiv = document.createElement('div');
+                platoDiv.className = 'cart-item';
+                platoDiv.innerHTML = `
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">${plato.nombre}</h5>
+                            <p class="card-text">Ingredientes: ${cartItem.ingredientes.join(', ')}</p>
+                            <p class="card-text">Precio: $${plato.precio.toFixed(2)}</p>
+                            <p class="card-text">Cantidad: ${cartItem.cantidad}</p>
+                            <button onclick="removeFromCart(${plato.id})" class="btn btn-danger">Eliminar</button>
+                        </div>
                     </div>
-                </div>
-            `;
-            cartContainer.appendChild(platoDiv);
-        });
-    }).catch(error => console.error('Error:', error));
+                `;
+                cartContainer.appendChild(platoDiv);
+            });
+        })
+        .catch(error => console.error('Error al cargar los platos:', error));
 }
 
+// Función para eliminar un plato del carrito
 function removeFromCart(platoId) {
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
     cart = cart.filter(item => item.id !== platoId);
@@ -213,6 +200,7 @@ function removeFromCart(platoId) {
     viewCart();
 }
 
+// Función para confirmar el pedido
 function confirmOrder() {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
     const user = JSON.parse(localStorage.getItem('loggedInUser'));
@@ -220,7 +208,7 @@ function confirmOrder() {
         alert('El carrito está vacío.');
         return;
     }
-    
+
     const deliveryDate = document.getElementById('delivery-date').value;
     const deliveryTime = document.getElementById('delivery-time').value;
 
@@ -234,35 +222,15 @@ function confirmOrder() {
         deliveryTime: deliveryTime
     };
 
-    // Simulación de éxito o error de la confirmación del pedido
-    const success = Math.random() > 0.2; // 80% de probabilidad de éxito
-
-    if (success) {
-        alert('Redirigiendo a la página de pago...');
-        fetch('data/pedidos.json')
-            .then(response => response.json())
-            .then(pedidos => {
-                pedidos.push(newOrder);
-                localStorage.setItem('pedidos', JSON.stringify(pedidos));
-                localStorage.removeItem('cart');
-                alert('Pedido confirmado');
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                // Guardar en localStorage si hay un error con el fetch
-                let localPedidos = JSON.parse(localStorage.getItem('pedidos')) || [];
-                localPedidos.push(newOrder);
-                localStorage
-                localPedidos.push(newOrder);
-                localStorage.setItem('pedidos', JSON.stringify(localPedidos));
-                localStorage.removeItem('cart');
-                alert('Pedido confirmado (almacenado localmente)');
-            });
-    } else {
-        alert('Hubo un error al procesar el pedido. Por favor, inténtelo de nuevo.');
-    }
+    let pedidos = JSON.parse(localStorage.getItem('pedidos')) || [];
+    pedidos.push(newOrder);
+    localStorage.setItem('pedidos', JSON.stringify(pedidos));
+    localStorage.removeItem('cart');
+    alert('Pedido confirmado');
+    $('#cartModal').modal('hide');
 }
 
+// Función para cargar el historial de pedidos
 function loadOrderHistory() {
     const user = JSON.parse(localStorage.getItem('loggedInUser'));
     if (!user) {
@@ -270,38 +238,33 @@ function loadOrderHistory() {
         return;
     }
 
-    fetch('data/pedidos.json')
-        .then(response => response.json())
-        .then(pedidos => {
-            const userOrders = pedidos.filter(order => order.user === user.username);
-            const orderHistoryContainer = document.getElementById('order-history');
-            orderHistoryContainer.innerHTML = ''; // Limpiar contenido anterior
+    const pedidos = JSON.parse(localStorage.getItem('pedidos')) || [];
+    const userOrders = pedidos.filter(order => order.user === user.username);
+    const orderHistoryContainer = document.getElementById('order-history');
+    orderHistoryContainer.innerHTML = ''; // Limpiar contenido anterior
 
-            userOrders.forEach(order => {
-                const orderDiv = document.createElement('div');
-                orderDiv.className = 'order-item';
-                orderDiv.innerHTML = `
-                    <h5>Pedido ${order.id}</h5>
-                    <p>Fecha: ${new Date(order.date).toLocaleString()}</p>
-                    <p>Estado: ${order.status}</p>
-                    <ul>
-                        ${order.items.map(item => `<li>${item.cantidad} x ${item.nombre}</li>`).join('')}
-                    </ul>
-                `;
-                orderHistoryContainer.appendChild(orderDiv);
-            });
-        })
-        .catch(error => console.error('Error:', error));
+    userOrders.forEach(order => {
+        const orderDiv = document.createElement('div');
+        orderDiv.className = 'order-item';
+        orderDiv.innerHTML = `
+            <h5>Pedido ${order.id}</h5>
+            <p>Fecha: ${new Date(order.date).toLocaleString()}</p>
+            <p>Estado: ${order.status}</p>
+            <ul>
+                ${order.items.map(item => `<li>${item.cantidad} x ${item.nombre}</li>`).join('')}
+            </ul>
+        `;
+        orderHistoryContainer.appendChild(orderDiv);
+    });
 }
 
+// Función para cargar el estado de la cuenta
 function loadAccountStatus() {
     const user = JSON.parse(localStorage.getItem('loggedInUser'));
     if (!user) {
         alert('Por favor, inicie sesión para ver el estado de su cuenta.');
         return;
     }
-
-    // Aquí puedes agregar lógica para obtener el saldo del usuario si es necesario
 
     const accountStatusContainer = document.getElementById('account-status');
     accountStatusContainer.innerHTML = `
@@ -313,6 +276,7 @@ function loadAccountStatus() {
     loadOrderHistory(); // Mostrar también el historial de pedidos
 }
 
+// Función para configurar un pedido recurrente
 function configureRecurringOrder(platoId, frecuencia) {
     const user = JSON.parse(localStorage.getItem('loggedInUser'));
     if (!user) {
@@ -326,27 +290,27 @@ function configureRecurringOrder(platoId, frecuencia) {
     alert('Pedido recurrente configurado con éxito.');
 }
 
+// Función para cancelar un pedido
 function cancelOrder(orderId) {
-    // Obtener el usuario logueado
     const user = JSON.parse(localStorage.getItem('loggedInUser'));
     if (!user) {
         alert('Por favor, inicie sesión para cancelar pedidos.');
         return;
     }
 
-    // Obtener el pedido y verificar si puede ser cancelado
     let pedidos = JSON.parse(localStorage.getItem('pedidos')) || [];
     const orderIndex = pedidos.findIndex(order => order.id === orderId && order.user === user.username);
     if (orderIndex > -1 && pedidos[orderIndex].status === 'pending') {
-        pedidos.splice(orderIndex, 1);
+        pedidos[orderIndex].status = 'canceled';
         localStorage.setItem('pedidos', JSON.stringify(pedidos));
         alert('Pedido cancelado con éxito.');
-        loadOrders(); // Recargar la lista de pedidos
+        loadOrderHistory(); // Recargar el historial de pedidos
     } else {
         alert('No se puede cancelar este pedido.');
     }
 }
 
+// Función para cargar el perfil del repartidor
 function loadDeliveryProfile(user) {
     const mainContent = document.getElementById('main-content');
     mainContent.innerHTML = `
@@ -361,8 +325,8 @@ function loadDeliveryProfile(user) {
     `;
 }
 
+// Función para cerrar sesión
 function logout() {
     localStorage.removeItem('loggedInUser');
     window.location.href = 'index.html';
 }
-
